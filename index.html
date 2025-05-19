@@ -13,6 +13,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700&display=swap" rel="stylesheet">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
     <!-- Hero Section -->
@@ -122,7 +123,7 @@
       <!-- Сіра лінія між секціями -->
 <hr class="section-divider">
 
-<section class="dip-details py-5 border-top">
+<section class="dip-details">
   <div class="container">
     <!-- Блок 1 -->
     <div class="row align-items-center mb-5">
@@ -418,9 +419,89 @@
           </div>
       </div>
   </div>
-</section>     
+</section>   
+<section class="contact-section" id="contact">
+  <div class="container">
+    <div class="contact-header text-center">
+      <h5 class="sub-title">STAY IN TOUCH</h5>
+      <h2 class="main-title">Contact us</h2>
+      <div class="separator">
+              <img src="images/blue_line.png" alt="Separator">
+          </div>
+    </div>
 
-    <!-- Scripts -->
+    <div class="contact-info row">
+      <div class="col-md-4 text-center">
+        <img src="images/icon_iphone.png" alt="Phone" />
+        <p>Phone: (415) 124-5678<br>Fax: (412) 123-8290</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <img src="images/icon_map.png" alt="Address" />
+        <p>1001 Brickell Bay Dr.<br>Suite 1900<br>Miami, FL 33131</p>
+      </div>
+      <div class="col-md-4 text-center">
+        <img src="images/icon_messange.png" alt="Email" />
+        <p>support@yourname.com</p>
+      </div>
+    </div>
+
+    <div class="contact-form-wrapper" id="contactFormWrapper">
+  <form class="contact-form" id="contactForm">
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <input type="text" class="form-control" name="name" placeholder="Name *" required>
+      </div>
+      <div class="form-group col-md-4">
+        <input type="email" class="form-control" name="email" placeholder="Email *" required>
+      </div>
+      <div class="form-group col-md-4">
+        <input type="text" class="form-control" name="subject" placeholder="Subject *" required>
+      </div>
+    </div>
+    <div class="form-group">
+      <textarea class="form-control" name="message" rows="4" placeholder="Message *" required></textarea>
+    </div>
+    <button type="submit" id="closebutton"class="btn btn-primary">Send Message</button>
+  </form>
+
+  <div id="successMessage" class="success-message" style="display: none;">
+    Message sent successfully!
+  </div>
+</div>
+
+
+  <div id="map" class="map-container"></div>
+</section>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-content">
+      <div class="footer-social">
+        <a href="#"><i class="fa fa-behance"></i></a>
+  <a href="#"><i class="fa fa-dribbble"></i></a>
+  <a href="#"><i class="fa fa-twitter"></i></a>
+  <a href="#"><i class="fa fa-facebook"></i></a>
+  <a href="#"><i class="fa fa-linkedin"></i></a>
+
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Lucid. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+function initMap() {
+  const location = { lat: 25.765077, lng: -80.190092 };
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 15,
+    center: location,
+  });
+  new google.maps.Marker({ position: location, map: map });
+}</script>
+<script async defer
+  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAiPF_l7qSf6MvujLnVDx-MXH9O5OKH5ds&callback=initMap">
+</script>
     <script src="js/script.js"></script>
 </body>
 </html>
