@@ -1,111 +1,157 @@
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function() {
+    // Мобільне меню
     const openBtn = document.querySelector('.open-menu');
     const closeBtn = document.querySelector('.nav-close');
     const menu = document.querySelector('.nav-menu');
 
-    openBtn.addEventListener('click', function () {
+    openBtn.addEventListener('click', function() {
         menu.classList.add('active');
         openBtn.style.display = 'none';
     });
 
-    closeBtn.addEventListener('click', function () {
+    closeBtn.addEventListener('click', function() {
         menu.classList.remove('active');
         openBtn.style.display = 'block';
     });
-});
-document.addEventListener('DOMContentLoaded', function() {
-    // Отримуємо елементи слайдера
+
+    // Ініціалізація слайдера
+    const slider = document.querySelector('.testimonial-slider');
     const slides = document.querySelectorAll('.testimonial-slide');
-    const dot = document.querySelectorAll('.dot');
+    const dotsContainer = document.querySelector('.slider-dots');
     let currentSlide = 0;
     let isAnimating = false;
-    const animationDuration = 600; // Тривалість анімації в мс
-    // Автоматичне створення крапок
-const dotsContainer = document.querySelector('.slider-dots');
-dotsContainer.innerHTML = ''; // Очистити існуючі крапки
+    const animationDuration = 600;
 
-slides.forEach((_, index) => {
-    const dot = document.createElement('span');
-    dot.className = `dot ${index === 0 ? 'active' : ''}`;
-    dot.dataset.slide = index;
-    dot.addEventListener('click', () => {
-        const direction = index > currentSlide ? 'next' : 'prev';
-        goToSlide(index, direction);
+    // Створення крапок навігації
+    function createDots() {
+        dotsContainer.innerHTML = '';
+        slides.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.className = `dot ${index === 0 ? 'active' : ''}`;
+            dot.dataset.slide = index;
+            dot.addEventListener('click', function() {
+                if (!isAnimating) {
+                    const direction = index > currentSlide ? 'next' : 'prev';
+                    goToSlide(index, direction);
+                }
+            });
+            dotsContainer.appendChild(dot);
+        });
+    }
+
+    // Оновлення активних крапок
+    function updateDots(index) {
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach(dot => dot.classList.remove('active'));
+        dots[index].classList.add('active');
+    }
+
+    // Перехід до конкретного слайду
+    function goToSlide(index, direction) {
+        if (isAnimating || index === currentSlide) return;
+        
+        isAnimating = true;
+        const currentActive = slides[currentSlide];
+        const nextActive = slides[index];
+        
+        // Додаємо класи анімації
+        if (direction === 'next') {
+            nextActive.classList.add('slide-next');
+            currentActive.classList.add('slide-next-out');
+        } else {
+            nextActive.classList.add('slide-prev');
+            currentActive.classList.add('slide-prev-out');
+        }
+        
+        nextActive.classList.add('active');
+        currentActive.classList.remove('active');
+        
+        currentSlide = index;
+        
+        // Завершення анімації
+        setTimeout(() => {
+            nextActive.classList.remove('slide-next', 'slide-prev');
+            currentActive.classList.remove('slide-next-out', 'slide-prev-out');
+            isAnimating = false;
+        }, animationDuration);
+        
+        updateDots(index);
+    }
+
+    // Автоматичне перегортання (розкоментуйте, якщо потрібно)
+    /*
+    let slideInterval = setInterval(() => {
+        nextSlide();
+    }, 5000);
+
+    slider.addEventListener('mouseenter', () => {
+        clearInterval(slideInterval);
     });
-    dotsContainer.appendChild(dot);
+
+    slider.addEventListener('mouseleave', () => {
+        slideInterval = setInterval(() => {
+            nextSlide();
+        }, 5000);
+    });
+    */
+
+    // Ініціалізація
+    createDots();
+    slides[0].classList.add('active');
 });
 
-const dots = document.querySelectorAll('.dot'); // Оновити посилання на крапки
-    // Функція для оновлення індикаторів (крапок)
-    function updateDots(index) {
-      dots.forEach(dot => dot.classList.remove('active'));
-      dots[index].classList.add('active');
-    }
-  
-    // Функція для анімації переходу
-    function goToSlide(index, direction) {
-      if (isAnimating || index === currentSlide) return;
-      
-      isAnimating = true;
-      const currentActive = slides[currentSlide];
-      const nextActive = slides[index];
-      
-      // Додаємо класи анімації
-      currentActive.classList.remove('active');
-      nextActive.classList.add('active');
-      nextActive.classList.add(direction === 'next' ? 'slide-next' : 'slide-prev');
-      
-      // Оновлюємо поточний слайд
-      currentSlide = index;
-      
-      // Видаляємо класи анімації після завершення
-      setTimeout(() => {
-        nextActive.classList.remove('slide-next', 'slide-prev');
-        isAnimating = false;
-      }, animationDuration);
-      
-      // Оновлюємо крапки
-      updateDots(index);
-    }
-  
-    // Функція для наступного слайда
-    function nextSlide() {
-      const newIndex = (currentSlide + 1) % slides.length;
-      goToSlide(newIndex, 'next');
-    }
-  
-    // Функція для попереднього слайда
-    function prevSlide() {
-      const newIndex = (currentSlide - 1 + slides.length) % slides.length;
-      goToSlide(newIndex, 'prev');
-    }
-  
-    // Додаємо обробники подій для крапок
-    dots.forEach((dot, index) => {
-      dot.addEventListener('click', () => {
-        const direction = index > currentSlide ? 'next' : 'prev';
-        goToSlide(index, direction);
-      });
-    });
-  
-    
-  
-    // Ініціалізація
-    updateDots(0);
-  });
-  // Обробники кліків для кнопок (як у банері)
+// Обробники кнопок (якщо потрібні)
 document.querySelectorAll('.btn-view').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
-        // Тут ваш код для переходу до секції Features
-        console.log('Перехід до Features');
+        // Додайте свою логіку тут
     });
 });
 
 document.querySelectorAll('.btn-download').forEach(btn => {
     btn.addEventListener('click', function(e) {
         e.preventDefault();
-        // Тут ваш код для завантаження
-        console.log('Завантаження теми');
+        // Додайте свою логіку тут
     });
 });
+
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const form = document.getElementById('contactForm');
+    const successMessage = document.getElementById('successMessage');
+    const inputs = form.querySelectorAll('input[required], textarea[required]');
+
+    let allValid = true;
+
+    inputs.forEach(input => {
+      if (input.value.trim() === '') {
+        allValid = false;
+        input.classList.add('is-invalid'); // для Bootstrap підсвітки
+      } else {
+        input.classList.remove('is-invalid');
+      }
+    });
+
+    if (allValid) {
+      form.style.display = 'none';
+      successMessage.style.display = 'block';
+    } else {
+      alert("Please fill in all required fields.");
+    }
+  });
+  closebutton.addEventListener('click', () => {
+  const input = contactFormWrapper.querySelector('.form-row input, .form-row textarea'); 
+  // шукаємо інпут або textarea всередині .form-row в contactFormWrapper
+
+  if (input && input.value.trim() === '') {
+    alert('Будь ласка, введіть текст!');
+    return; // не ховаємо, якщо поле пусте
+  }
+
+  contactFormWrapper.style.display = 'none'; // ховаємо, якщо текст введено
+  alert('Повідомлення надіслано');
+});
+
+
+
