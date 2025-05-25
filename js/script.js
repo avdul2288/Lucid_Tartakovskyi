@@ -78,22 +78,7 @@ document.addEventListener('DOMContentLoaded', function() {
         updateDots(index);
     }
 
-    // Автоматичне перегортання (розкоментуйте, якщо потрібно)
-    /*
-    let slideInterval = setInterval(() => {
-        nextSlide();
-    }, 5000);
-
-    slider.addEventListener('mouseenter', () => {
-        clearInterval(slideInterval);
-    });
-
-    slider.addEventListener('mouseleave', () => {
-        slideInterval = setInterval(() => {
-            nextSlide();
-        }, 5000);
-    });
-    */
+   
 
     // Ініціалізація
     createDots();
